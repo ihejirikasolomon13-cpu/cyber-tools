@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solomon Cyber Tools</title>
+<link rel="manifest" href="manifest.json">
+<style>
+body{background:#0a0a0a;color:#fff;font-family:Arial;padding:20px;text-align:center}
+h1{color:#00ff88}
+.tool{background:#1a1a1a;border:1px solid #00ff88;border-radius:15px;padding:20px;margin:15px 0}
+button{background:#00ff88;color:#000;border:none;padding:12px 25px;border-radius:10px;font-weight:bold}
+input{width:90%;padding:12px;border-radius:10px;border:none;margin:10px 0}
+a{color:#00ff88}
+</style>
+</head>
+<body>
+<h1>🛡️ SOLOMON CYBER TOOLS</h1>
+<p>My Security Tools - Download & Use</p>
+<div class="tool"><h3>🔒 Password Checker</h3><input id="pass" placeholder="Enter password" onkeyup="check()"><p id="result"></p></div>
+<div class="tool"><h3>🌐 My IP</h3><p id="ip">Loading...</p><button onclick="getIP()">Check IP</button></div>
+<div class="tool"><h3>🔑 Password Generator</h3><p id="genpass" style="font-size:18px">Click Generate</p><button onclick="generate()">Generate Strong Password</button></div>
+<div class="tool"><h3>📥 Install App</h3><p>Install on your phone like WhatsApp!</p></div>
+<script>
+function check(){let p=document.getElementById('pass').value;let r=document.getElementById('result');if(p.length<6){r.innerHTML='❌ Weak'}else if(p.length<10){r.innerHTML='⚠️ Medium'}else{r.innerHTML='✅ Strong'}}
+function getIP(){fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>{document.getElementById('ip').innerHTML=d.ip})}
+function generate(){let c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";let p="";for(let i=0;i<12;i++)p+=c[Math.floor(Math.random()*c.length)];document.getElementById('genpass').innerHTML=p}
+getIP();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
+</script>
+</body>
+</html>
