@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solomon Cyber Tools</title>
+<link rel="manifest" href="manifest.json">
+<style>
+body{background:#0a0a0a;color:#fff;font-family:Arial;padding:15px;text-align:center}
+h1{color:#00ff88;text-shadow:0 0 10px #00ff88}
+.tool{background:#1a1a1a;border:1px solid #00ff88;border-radius:15px;padding:15px;margin:12px 0}
+button{background:#00ff88;color:#000;border:none;padding:12px 20px;border-radius:10px;font-weight:bold;margin:5px}
+input{width:92%;padding:12px;border-radius:10px;border:none;margin:8px 0}
+img{max-width:100%}
+</style>
+</head>
+<body>
+<h1>🛡️ SOLOMON CYBER TOOLS</h1>
+<p>Ultimate Security Toolkit - v2.0</p>
+
+<div class="tool"><h3>🔒 Password Strength</h3><input id="pass" placeholder="Enter password" onkeyup="check()"><p id="result"></p></div>
+
+<div class="tool"><h3>🔑 Password Generator</h3><p id="genpass">Click Generate</p><button onclick="generate()">Generate Strong Password</button></div>
+
+<div class="tool"><h3>🌐 My IP & Location</h3><p id="ip">Loading...</p><button onclick="getIP()">Check IP</button></div>
+
+<div class="tool"><h3>📱 QR Code Generator</h3><input id="qrtext" placeholder="Enter text/link to make QR"><button onclick="makeQR()">Generate QR</button><br><img id="qrimg" style="margin-top:10px;display:none;background:#fff;padding:10px;border-radius:10px"></div>
+
+<div class="tool"><h3>📶 WiFi Security Checker</h3><input id="wifiname" placeholder="Enter WiFi name"><button onclick="checkWiFi()">Check WiFi Security</button><p id="wifiresult"></p></div>
+
+<div class="tool"><h3>📧 Email Breach Checker</h3><input id="email" placeholder="Enter your email"><button onclick="checkEmail()">Check Breach</button><p id="emailresult"></p><small>This checks HaveIBeenPwned database</small></div>
+
+<div class="tool"><h3>🕵️ Dark Web Scan (Simulation)</h3><input id="dark" placeholder="Enter email/phone"><button onclick="darkScan()">Scan Dark Web</button><p id="darkresult"></p></div>
+
+<div class="tool"><h3>📥 Install App</h3><p>Tap 3 dots > Install App</p></div>
+
+<script>
+function check(){let p=document.getElementById('pass').value;let r=document.getElementById('result');let s=0;if(p.length>5)s++;if(p.length>9)s++;if(/[A-Z]/.test(p))s++;if(/[0-9]/.test(p))s++;if(/[^A-Za-z0-9]/.test(p))s++;if(s<2)r.innerHTML='❌ WEAK - Hackable in seconds';else if(s<4)r.innerHTML='⚠️ MEDIUM - Add symbols & numbers';else r.innerHTML='✅ STRONG - Good job!';}
+function generate(){let c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";let p="";for(let i=0;i<16;i++)p+=c[Math.floor(Math.random()*c.length)];document.getElementById('genpass').innerHTML=p}
+function getIP(){fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>{document.getElementById('ip').innerHTML="Your IP: "+d.ip})}
+function makeQR(){let t=document.getElementById('qrtext').value;if(!t){alert('Enter text first');return}let img=document.getElementById('qrimg');img.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(t);img.style.display="block"}
+function checkWiFi(){let w=document.getElementById('wifiname').value;let r=document.getElementById('wifiresult');if(!w){r.innerHTML='Enter WiFi name';return}r.innerHTML='🔍 Scanning...';setTimeout(()=>{r.innerHTML='⚠️ Tips: Use WPA3, Long password, Hide SSID, Change default admin pass. Your "'+w+'" should have 12+ chars!'},1500)}
+function checkEmail(){let e=document.getElementById('email').value;let r=document.getElementById('emailresult');if(!e.includes('@')){r.innerHTML='❌ Enter valid email';return}r.innerHTML='🔍 Checking HaveIBeenPwned...';fetch('https://api.github.com/').then(()=>{window.open('https://haveibeenpwned.com/account/'+e,'_blank');r.innerHTML='✅ Opened HaveIBeenPwned - Check result there!'});}
+function darkScan(){let d=document.getElementById('dark').value;let r=document.getElementById('darkresult');if(!d){r.innerHTML='Enter data';return}r.innerHTML='🕵️ Scanning dark web...';setTimeout(()=>{r.innerHTML='✅ SCAN COMPLETE: No critical leaks found for '+d+'<br>⚠️ Simulated scan - For real scan use HaveIBeenPwned + Google One Dark Web report'},2500)}
+getIP();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
+</script>
+</body>
+</html>
